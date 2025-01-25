@@ -3,24 +3,42 @@ package ca.mcmaster.se2aa4.mazerunner;
 public class Explorer {
     private int x;
     private int y;
+    private Direction direction;
 
-    public Explorer() {
-        // Skeleton constructor
+    // Constructor to initialize position and direction
+    public Explorer(int startX, int startY, Direction startDirection) {
+        this.x = startX;
+        this.y = startY;
+        this.direction = startDirection;
     }
 
     public void moveForward() {
-        // Placeholder method
+        switch (direction) {
+            case NORTH:
+                y--;
+                break;
+            case EAST:
+                x++;
+                break;
+            case SOUTH:
+                y++;
+                break;
+            case WEST:
+                x--;
+                break;
+        }
+        printPosition();
     }
 
     public void turnLeft() {
-        // Placeholder method
+        direction = Direction.values()[(direction.ordinal() + 3) % 4];
     }
 
     public void turnRight() {
-        // Placeholder method
+        direction = Direction.values()[(direction.ordinal() + 1) % 4];
     }
 
     public void printPosition() {
-        // Placeholder method to print explorer's position
+        System.out.println("Explorer is at (" + x + ", " + y + "), facing " + direction);
     }
 }
