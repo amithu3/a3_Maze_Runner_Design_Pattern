@@ -6,10 +6,10 @@ public class MazeLoader {
 
     public static char[][] loadMaze(String filePath) {
         char[][] maze = null;
+        int rows = 0;
+
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
-            int rows = 0;
-
             while ((line = reader.readLine()) != null) {
                 rows++;
             }
