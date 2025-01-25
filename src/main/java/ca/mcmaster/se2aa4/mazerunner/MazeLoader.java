@@ -4,8 +4,6 @@ import java.io.*;
 
 public class MazeLoader {
 
-    public static void loadMaze(String filePath) {
-
     public static char[][] loadMaze(String filePath) {
         char[][] maze = null;
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
