@@ -17,24 +17,24 @@ public class Main {
     public static void main(String[] args) {
 
         // Command line options
-        Options option = new Options();
+        Options options = new Options();
 
         // i input
         Option userInput = new Option("i", "input", true, "Path to the maze file");
         userInput.setRequired(true);
-        option.addOption(userInput);
+        options.addOption(userInput);
 
         // p path validation
         Option pathOption = new Option("p", "path", true, "Path to validate (e.g., FFFF)");
         pathOption.setRequired(false);
-        option.addOption(pathOption);
+        options.addOption(pathOption);
 
         CommandLineParser parser = new DefaultParser();
         CommandLine cmdLine;
 
         try {
             // Parses the command line arguments
-            cmdLine = parser.parse(option, args);
+            cmdLine = parser.parse(options, args);
 
             // Obtains the maze file from the -i flag
             String mazePath = cmdLine.getOptionValue("input");
