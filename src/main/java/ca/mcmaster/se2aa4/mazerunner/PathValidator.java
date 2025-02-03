@@ -1,4 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
+import ca.mcmaster.se2aa4.mazerunner.Position;
 
 public class PathValidator {
 
@@ -14,10 +15,18 @@ public class PathValidator {
 
         for (char move : path.toCharArray()) {
             switch (move) {
-                case 'F' -> position = position.move(direction);
-                case 'L' -> direction = direction.turnLeft();
-                case 'R' -> direction = direction.turnRight();
-                default -> return false;
+                case 'F' -> {
+                    position = position.move(direction);
+                }
+                case 'L' -> {
+                    direction = direction.turnLeft();
+                }
+                case 'R' -> {
+                    direction = direction.turnRight();
+                }
+                default -> {
+                    return false;
+                }
             }
 
             if (!isValidPosition(position)) return false;
