@@ -21,6 +21,7 @@ public class MazeExplorer {
         char[][] grid = maze.getGrid();
         for (int i = 0; i < grid.length; i++) {
             if (grid[i][0] == ' ') {
+                System.out.println("DEBUG: Found entry at (" + i + ", 0)");
                 return new Position(i, 0);
             }
         }
@@ -31,6 +32,7 @@ public class MazeExplorer {
         char[][] grid = maze.getGrid();
         for (int i = 0; i < grid.length; i++) {
             if (grid[i][grid[0].length - 1] == ' ') {
+                System.out.println("DEBUG: Found exit at (" + i + ", " + (grid[0].length - 1) + ")");
                 return new Position(i, grid[0].length - 1);
             }
         }

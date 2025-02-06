@@ -28,23 +28,35 @@ public class Maze {
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
             String line;
             while ((line = reader.readLine()) != null) {
+                if (line.isEmpty()) {
+                    if (!lines.isEmpty()) {  // Use the previous row length to maintain width consistency
+                        int width = lines.get(0).length();
+                        line = " ".repeat(width);
+                    } else {
+                        throw new IOException("Error: First row of maze cannot be empty.");
+                    }
+                }
                 lines.add(line);
             }
         }
-
+    
         if (lines.isEmpty()) {
             throw new IOException("Error: Maze file is empty.");
         }
-
+    
         int width = lines.get(0).length();
+        System.out.println("Expected width: " + width);
+    
         for (String line : lines) {
+            System.out.println("Line: [" + line + "] Length: " + line.length());
             if (line.length() != width) {
                 throw new IOException("Error: Maze file contains inconsistent row lengths.");
             }
         }
-
+    
         return lines.stream().map(String::toCharArray).toArray(char[][]::new);
     }
+    
 
     // Prints the maze for debugging
     public void printMaze() {
