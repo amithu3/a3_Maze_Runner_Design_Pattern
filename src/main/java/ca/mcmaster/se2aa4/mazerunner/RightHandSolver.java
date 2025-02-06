@@ -4,15 +4,18 @@ public class RightHandSolver implements MazeSolver {
 
     @Override
     public String solve(Maze maze) {
-        Position pos = maze.getStart();
+        MazeExplorer explorer = new MazeExplorer(maze);  // Use MazeExplorer
+        Position pos = explorer.getEntry();  // Get start position
+        Position end = explorer.getExit();   // Get end position
+
         Direction dir = Direction.RIGHT;
         StringBuilder path = new StringBuilder();
 
-        while (!pos.equals(maze.getEnd())) {
-            if (maze.isValidPosition(pos.move(dir.turnRight()))) {
+        while (!pos.equals(end)) {
+            if (explorer.isValidPosition(pos.move(dir.turnRight()))) {  // Use explorer
                 dir = dir.turnRight();
                 path.append('R');
-            } else if (maze.isValidPosition(pos.move(dir))) {
+            } else if (explorer.isValidPosition(pos.move(dir))) {
                 path.append('F');
             } else {
                 dir = dir.turnLeft();

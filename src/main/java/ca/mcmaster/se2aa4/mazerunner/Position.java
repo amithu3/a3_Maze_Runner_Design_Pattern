@@ -1,22 +1,23 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 public class Position {
-    private final int x, y;
+    private final int row;
+    private final int col;
 
-    public Position(int x, int y) {
-        this.x = x;
-        this.y = y;
+    public Position(int row, int col) {
+        this.row = row;
+        this.col = col;
     }
 
-    public int x() { return x; }
-    public int y() { return y; }
+    public int getRow() { return row; }  // Fix for getRow()
+    public int getCol() { return col; }  // Fix for getCol()
 
     public Position move(Direction dir) {
         return switch (dir) {
-            case UP -> new Position(x, y - 1);
-            case DOWN -> new Position(x, y + 1);
-            case LEFT -> new Position(x - 1, y);
-            case RIGHT -> new Position(x + 1, y);
+            case UP -> new Position(row - 1, col);
+            case DOWN -> new Position(row + 1, col);
+            case LEFT -> new Position(row, col - 1);
+            case RIGHT -> new Position(row, col + 1);
         };
     }
 
@@ -24,6 +25,11 @@ public class Position {
     public boolean equals(Object obj) {
         if (!(obj instanceof Position)) return false;
         Position other = (Position) obj;
-        return this.x == other.x && this.y == other.y;
+        return this.row == other.row && this.col == other.col;
+    }
+
+    @Override
+    public String toString() {
+        return "Position(" + row + ", " + col + ")";
     }
 }

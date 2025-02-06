@@ -1,5 +1,4 @@
 package ca.mcmaster.se2aa4.mazerunner;
-import ca.mcmaster.se2aa4.mazerunner.Position;
 
 public class Explorer {
     private Position position;
