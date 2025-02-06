@@ -9,8 +9,8 @@ public class Position {
         this.col = col;
     }
 
-    public int getRow() { return row; }  // Fix for getRow()
-    public int getCol() { return col; }  // Fix for getCol()
+    public int getRow() { return row; }  
+    public int getCol() { return col; }  
 
     public Position move(Direction dir) {
         return switch (dir) {

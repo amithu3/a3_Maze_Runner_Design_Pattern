@@ -7,37 +7,43 @@ public class RightHandSolver implements MazeSolver {
     public String solve(Maze maze) {
         MazeExplorer explorer;
         try {
-            explorer = new MazeExplorer(maze); 
+            explorer = new MazeExplorer(maze);
         } catch (IOException e) {
             System.out.println("ERROR: " + e.getMessage());
             return "";
         }
 
-        Position start = explorer.getEntry();
+        Position currentPosition = explorer.getEntry();
         Position end = explorer.getExit();
+        Direction dir = Direction.RIGHT;
+        StringBuilder path = new StringBuilder();
 
-        if (start == null || end == null) {
+        if (currentPosition == null || end == null) {
             System.out.println("ERROR: Could not find start or end position!");
             return "";
         }
 
-        Explorer player = new Explorer(start, Direction.RIGHT);
-        StringBuilder path = new StringBuilder();
-
-        while (!player.getPosition().equals(end)) {
-            Position rightPos = player.getPosition().move(player.getDirection().turnRight());
-            Position forwardPos = player.getPosition().move(player.getDirection());
+        while (!currentPosition.equals(end)) {
+            Position rightPos = currentPosition.move(dir.turnRight());
+            Position forwardPos = currentPosition.move(dir);
+            Position leftPos = currentPosition.move(dir.turnLeft());
 
             if (explorer.isValidPosition(rightPos)) {
-                player.turnRight();
-                player.moveForward(explorer);
-                path.append('R').append('F');
+                dir = dir.turnRight();
+                path.append('R');
+                currentPosition = currentPosition.move(dir);
+                path.append('F');
             } else if (explorer.isValidPosition(forwardPos)) {
-                player.moveForward(explorer);
+                currentPosition = forwardPos;
+                path.append('F');
+            } else if (explorer.isValidPosition(leftPos)) {
+                dir = dir.turnLeft();
+                path.append('L');
+                currentPosition = currentPosition.move(dir);
                 path.append('F');
             } else {
-                player.turnLeft();
-                path.append('L');
+                dir = dir.turnRight().turnRight();
+                path.append("RR");
             }
         }
 
