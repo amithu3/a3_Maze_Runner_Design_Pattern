@@ -1,95 +1,58 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 import org.apache.commons.cli.*;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
-
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import java.io.IOException;
 
 public class Main {
-
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
-
-        // Command line options
         Options options = new Options();
-
-        // i input
-        Option userInput = new Option("i", "input", true, "Path to the maze file");
-        userInput.setRequired(true);
-        options.addOption(userInput);
-
-        // p path validation
-        Option pathOption = new Option("p", "path", true, "Path to validate (e.g., FFFF)");
-        pathOption.setRequired(false);
-        options.addOption(pathOption);
+        options.addOption(new Option("i", "input", true, "Path to the maze file"));
+        options.addOption(new Option("p", "path", true, "Path to validate"));
 
         CommandLineParser parser = new DefaultParser();
-        CommandLine cmdLine;
 
         try {
-            // Parses the command line arguments
-            cmdLine = parser.parse(options, args);
-
-            // Obtains the maze file from the -i flag
-            String mazePath = cmdLine.getOptionValue("input");
-            logger.info("** Starting Maze Runner");
-
-            // Loads the maze
-            logger.info("**** Reading the maze from file " + mazePath);
-            loadMaze(mazePath);
-
-            // Determines whethet -p flag is received
-            if (cmdLine.hasOption("path")) {
-                String path = cmdLine.getOptionValue("path");
-                logger.info("**** Path to validate: " + path);
+            CommandLine cmd = parser.parse(options, args);
+            
+            if (!cmd.hasOption("i")) {
+                logger.error("Maze file must be specified with -i flag.");
+                System.exit(1);
             }
 
-        } catch (ParseException e) {
-            logger.error("Failed to parse command-line arguments: " + e.getMessage());
-        } catch (Exception e) {
-            logger.error("/!\\ An error has occured /!\\");
-            logger.error(e.getMessage(), e);
-        }
+            String mazePath = cmd.getOptionValue("i");
+            Maze maze = new Maze(mazePath);
+            
+            if (cmd.hasOption("p")) {
+                String path = cmd.getOptionValue("p");
+                PathValidator validator = new PathValidator(maze);
+                boolean isValid = validator.validatePath(path);
+                System.out.println(isValid ? "Path is valid!" : "Path is invalid!");
+            } else {
+                logger.info("**** Calling solve() on maze");
+                MazeSolver solver = new RightHandSolver();
+                String solution = solver.solve(maze);
 
-        logger.info("** End of Maze Runner");
-    }
-
-    /**
-     * Loads the maze from the file and prints it. This is a skeleton of loading a
-     * maze
-     */
-
-    private static void loadMaze(String filePath) {
-        try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
-            String line;
-
-            while ((line = reader.readLine()) != null) {
-                for (int idx = 0; idx < line.length(); idx++) {
-                    if (line.charAt(idx) == '#') {
-                        System.out.print("WALL ");
-                    } else if (line.charAt(idx) == ' ') {
-                        System.out.print("PASS ");
+                if (solution.isEmpty()) {
+                    logger.error("**** Solver returned an empty path!");
+                } else {
+                    logger.info("**** Computed Path: " + solution);
+                    if (solution == null || solution.isEmpty()) {
+                        logger.error("**** Solver returned an empty path!");
+                        System.out.println("ERROR: No path computed.");
+                    } else {
+                        System.out.println("Computed Path: " + solution);
                     }
-                }
-                System.out.print(System.lineSeparator());
+                    }
+
             }
-        } catch (FileNotFoundException e) {
-            logger.error("Maze file not found: " + filePath);
+        } catch (ParseException e) {
+            logger.error("Error parsing command-line arguments", e);
         } catch (IOException e) {
-            logger.error("Error reading the maze file: " + filePath);
-        } catch (Exception e) {
-            logger.error("An unexpected error occurred while loading the maze from file: " + filePath, e);
+            logger.error("Error loading the maze file", e);
         }
-
-        logger.info("**** Computing path");
-        logger.info("PATH NOT COMPUTED");
-        logger.info("** End of MazeRunner");
-
     }
 }

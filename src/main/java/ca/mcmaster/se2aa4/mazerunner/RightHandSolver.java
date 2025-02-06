@@ -1,28 +1,46 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-public class RightHandSolver implements MazeSolver {
+import java.io.IOException;
 
+public class RightHandSolver implements MazeSolver {
     @Override
     public String solve(Maze maze) {
-        MazeExplorer explorer = new MazeExplorer(maze);  // Use MazeExplorer
-        Position pos = explorer.getEntry();  // Get start position
-        Position end = explorer.getExit();   // Get end position
+        MazeExplorer explorer;
+        try {
+            explorer = new MazeExplorer(maze); 
+        } catch (IOException e) {
+            System.out.println("ERROR: " + e.getMessage());
+            return "";
+        }
 
-        Direction dir = Direction.RIGHT;
+        Position start = explorer.getEntry();
+        Position end = explorer.getExit();
+
+        if (start == null || end == null) {
+            System.out.println("ERROR: Could not find start or end position!");
+            return "";
+        }
+
+        Explorer player = new Explorer(start, Direction.RIGHT);
         StringBuilder path = new StringBuilder();
 
-        while (!pos.equals(end)) {
-            if (explorer.isValidPosition(pos.move(dir.turnRight()))) {  // Use explorer
-                dir = dir.turnRight();
-                path.append('R');
-            } else if (explorer.isValidPosition(pos.move(dir))) {
+        while (!player.getPosition().equals(end)) {
+            Position rightPos = player.getPosition().move(player.getDirection().turnRight());
+            Position forwardPos = player.getPosition().move(player.getDirection());
+
+            if (explorer.isValidPosition(rightPos)) {
+                player.turnRight();
+                player.moveForward(explorer);
+                path.append('R').append('F');
+            } else if (explorer.isValidPosition(forwardPos)) {
+                player.moveForward(explorer);
                 path.append('F');
             } else {
-                dir = dir.turnLeft();
+                player.turnLeft();
                 path.append('L');
             }
-            pos = pos.move(dir);
         }
+
         return path.toString();
     }
 }

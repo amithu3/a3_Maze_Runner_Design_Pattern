@@ -9,9 +9,13 @@ public class Explorer {
         this.direction = startDirection;
     }
 
-    public void moveForward() {
-        position = position.move(direction);
+    public void moveForward(MazeExplorer explorer) {
+        Position nextPos = position.move(direction);
+        if (explorer.isValidPosition(nextPos)) {
+            position = nextPos;
+        }
     }
+    
 
     public void turnLeft() {
         direction = direction.turnLeft();
