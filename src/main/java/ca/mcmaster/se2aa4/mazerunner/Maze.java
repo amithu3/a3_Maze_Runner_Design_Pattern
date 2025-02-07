@@ -76,22 +76,4 @@ public class Maze {
         }
     }
 
-
-    // ✅ Count the number of spaces in each row
-    public void countSpacesInRows() {
-        int rowCount = grid.size();  // Number of rows in the maze
-        for (int i = 0; i < rowCount; i++) {
-            int spaceCount = 0;  // Counter for spaces in the current row
-            
-            // Iterate through each character in the current row
-            for (int j = 0; j < grid.get(i).length; j++) {
-                if (grid.get(i)[j] == ' ') {  // Check if the character is a space
-                    spaceCount++;
-                }
-            }
-            
-            // Print the number of spaces in the current row
-            System.out.println("Row " + i + " has " + spaceCount + " spaces.");
-        }
-    }
 }

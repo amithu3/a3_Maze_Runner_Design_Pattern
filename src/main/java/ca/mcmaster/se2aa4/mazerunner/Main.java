@@ -43,9 +43,7 @@ public class Main {
                     if (solution == null || solution.isEmpty()) {
                         logger.error("**** Solver returned an empty path!");
                         System.out.println("ERROR: No path computed.");
-                    } else {
-                        System.out.println("Computed Path: " + solution);
-                    }
+                    } 
                     }
 
             }

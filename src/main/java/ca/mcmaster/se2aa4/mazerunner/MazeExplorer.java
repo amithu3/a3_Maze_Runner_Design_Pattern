@@ -16,10 +16,8 @@ public class MazeExplorer {
     }
 
     private Position findEntry() {
-        maze.countSpacesInRows();
         for (int i = 0; i < maze.getRowCount(); i++) {
             if (maze.getCell(i, 0) == ' ') { // Check first column of each row
-                System.out.println("DEBUG: Found entry at (" + i + ", 0)");
                 return new Position(i, 0);
             }
         }
@@ -33,12 +31,10 @@ public class MazeExplorer {
         int rowCount = maze.getRowCount();
         int colCount = maze.getMaxCol();  // Ensure this gives the last column index + 1
     
-        System.out.println("DEBUG: Checking rightmost column for exit");
     
         // Iterate through each row in the last column
         for (int row = 0; row < rowCount; row++) {
             if (maze.getCell(row, colCount - 1) == ' ') {  // Check if it's an empty space
-                System.out.println("DEBUG: Exit found at (" + row + ", " + (colCount - 1) + ")");
                 return new Position(row, colCount - 1);
             }
         }

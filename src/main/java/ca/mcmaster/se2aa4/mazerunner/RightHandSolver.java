@@ -1,6 +1,8 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
 
+import ca.mcmaster.se2aa4.mazerunner.utils.PathFormatter;
+
 public class RightHandSolver implements MazeSolver {
     @Override
     public String solve(Maze maze) {
@@ -48,6 +50,10 @@ public class RightHandSolver implements MazeSolver {
                 }
             }
         }
+
+        // Convert and print both path formats
+        System.out.println("Canonical form: " + path.toString());
+        System.out.println("Factorized form: " + PathFormatter.getFactorizedPath(path.toString()));
         
 
         return path.toString();
