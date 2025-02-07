@@ -26,7 +26,6 @@ public class MazeExplorer {
 
     
     private Position findExit() {
-        maze.printMaze();  // Debug: Print maze to ensure it's read correctly
         
         int rowCount = maze.getRowCount();
         int colCount = maze.getMaxCol();  // Ensure this gives the last column index + 1

@@ -69,11 +69,6 @@ public class Maze {
         return lines;
     }
 
-    // ✅ Prints the maze for debugging
-    public void printMaze() {
-        for (char[] row : grid) {
-            System.out.println(new String(row));
-        }
-    }
+
 
 }

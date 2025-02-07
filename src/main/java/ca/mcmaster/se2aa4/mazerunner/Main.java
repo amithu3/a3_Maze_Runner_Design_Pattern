@@ -2,13 +2,18 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import org.apache.commons.cli.*;
 import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.Configurator;
+
 import java.io.IOException;
 
 public class Main {
     private static final Logger logger = LogManager.getLogger();
 
     public static void main(String[] args) {
+        Configurator.setRootLevel(Level.OFF);
+
         Options options = new Options();
         options.addOption(new Option("i", "input", true, "Path to the maze file"));
         options.addOption(new Option("p", "path", true, "Path to validate"));
