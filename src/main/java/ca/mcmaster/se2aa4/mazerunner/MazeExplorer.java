@@ -1,54 +1,72 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.IOException;
-
 public class MazeExplorer {
     private final Maze maze;
     private final Position entry;
     private final Position exit;
 
-    public MazeExplorer(Maze maze) throws IOException {
+    public MazeExplorer(Maze maze) {
         this.maze = maze;
         this.entry = findEntry();
         this.exit = findExit();
 
         if (entry == null || exit == null) {
-            throw new IOException("Invalid maze: No entry or exit found.");
+            throw new RuntimeException("Invalid maze: No entry or exit found.");
         }
     }
 
     private Position findEntry() {
-        char[][] grid = maze.getGrid();
-        for (int i = 0; i < grid.length; i++) {
-            if (grid[i][0] == ' ') {
+        maze.countSpacesInRows();
+        for (int i = 0; i < maze.getRowCount(); i++) {
+            if (maze.getCell(i, 0) == ' ') { // Check first column of each row
                 System.out.println("DEBUG: Found entry at (" + i + ", 0)");
                 return new Position(i, 0);
             }
         }
         return null;
     }
+
     
     private Position findExit() {
-        char[][] grid = maze.getGrid();
-        for (int i = 0; i < grid.length; i++) {
-            if (grid[i][grid[0].length - 1] == ' ') {
-                System.out.println("DEBUG: Found exit at (" + i + ", " + (grid[0].length - 1) + ")");
-                return new Position(i, grid[0].length - 1);
+        maze.printMaze();  // Debug: Print maze to ensure it's read correctly
+        
+        int rowCount = maze.getRowCount();
+        int colCount = maze.getMaxCol();  // Ensure this gives the last column index + 1
+    
+        System.out.println("DEBUG: Checking rightmost column for exit");
+    
+        // Iterate through each row in the last column
+        for (int row = 0; row < rowCount; row++) {
+            if (maze.getCell(row, colCount - 1) == ' ') {  // Check if it's an empty space
+                System.out.println("DEBUG: Exit found at (" + row + ", " + (colCount - 1) + ")");
+                return new Position(row, colCount - 1);
             }
         }
-        System.out.println("ERROR: No exit point found!");
-        return null;
+    
+        throw new RuntimeException("No exit found in the rightmost column");
     }
     
+    
+    
+    
+    
+    
+    
+    
+
     public Position getEntry() { return entry; } 
     public Position getExit() { return exit; }    
 
     public boolean isValidPosition(Position pos) { 
-        char[][] grid = maze.getGrid();
         int row = pos.getRow();
         int col = pos.getCol();
-        return row >= 0 && row < grid.length &&
-               col >= 0 && col < grid[0].length &&
-               grid[row][col] != '#';  // Assuming '#' is a wall
+
+        // Ensure row index is within bounds
+        if (row < 0 || row >= maze.getRowCount()) return false;
+
+        // Ensure column index is within bounds for that specific row
+        if (col < 0 || col >= maze.getColCount(row)) return false;
+
+        return maze.getCell(row, col) != '#';  // Assuming '#' is a wall
     }
 }

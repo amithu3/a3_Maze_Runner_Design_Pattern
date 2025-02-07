@@ -1,7 +1,5 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import java.io.IOException;
-
 public class PathValidator {
     private final MazeExplorer explorer;
 
@@ -9,7 +7,7 @@ public class PathValidator {
         MazeExplorer tempExplorer;
         try {
             tempExplorer = new MazeExplorer(maze);  
-        } catch (IOException e) {
+        } catch (Exception e) {
             System.out.println("ERROR: " + e.getMessage());
             tempExplorer = null;  // Set to null if an error occurs
         }
