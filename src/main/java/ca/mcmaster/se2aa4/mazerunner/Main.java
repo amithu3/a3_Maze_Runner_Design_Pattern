@@ -49,13 +49,14 @@ public class Main {
                         logger.error("**** Solver returned an empty path!");
                         System.out.println("ERROR: No path computed.");
                     } 
-                    }
-
+                }
             }
         } catch (ParseException e) {
             logger.error("Error parsing command-line arguments", e);
         } catch (IOException e) {
             logger.error("Error loading the maze file", e);
+            System.out.println("ERROR: Could not load maze file. Please check the file name and path."); // NEW
+            System.exit(1); // NEW
         }
     }
 }
