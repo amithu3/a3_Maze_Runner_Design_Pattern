@@ -13,12 +13,17 @@ public class Position {
     public int getCol() { return col; }  
 
     public Position move(Direction dir) {
-        return switch (dir) {
-            case UP -> new Position(row - 1, col);
-            case DOWN -> new Position(row + 1, col);
-            case LEFT -> new Position(row, col - 1);
-            case RIGHT -> new Position(row, col + 1);
-        };
+        int newRow = row;
+        int newCol = col;
+
+        switch (dir) {
+            case UP -> newRow = Math.max(0, row - 1);  // Prevent negative row
+            case DOWN -> newRow = row + 1;  // You may need a max boundary check
+            case LEFT -> newCol = Math.max(0, col - 1); // Prevent negative col
+            case RIGHT -> newCol = col + 1; // You may need a max boundary check
+        }
+
+        return new Position(newRow, newCol);
     }
 
     @Override
