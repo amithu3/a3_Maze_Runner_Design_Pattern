@@ -1,12 +1,10 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.commands.Command;
+import ca.mcmaster.se2aa4.mazerunner.commands.*;
 import ca.mcmaster.se2aa4.mazerunner.utils.PathFormatter;
-import ca.mcmaster.se2aa4.mazerunner.commands.MoveForwardCommand;
-import ca.mcmaster.se2aa4.mazerunner.commands.TurnLeftCommand;
-import ca.mcmaster.se2aa4.mazerunner.commands.TurnRightCommand;
 
-public class RightHandSolver implements MazeSolver {
+public class RightHandSolver implements MazeSolvingStrategy {
+
     @Override
     public String solve(Maze maze) {
         MazeExplorer explorer;

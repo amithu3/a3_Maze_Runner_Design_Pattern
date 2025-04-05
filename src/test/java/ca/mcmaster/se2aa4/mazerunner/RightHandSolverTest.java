@@ -2,6 +2,7 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
+import ca.mcmaster.se2aa4.mazerunner.MazeSolvingStrategy;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,7 +17,7 @@ public class RightHandSolverTest {
     }
 
     private void runSolverAndWarnIfEmpty(String testName, Maze maze) {
-        MazeSolver solver = new RightHandSolver();
+        MazeSolvingStrategy solver = new RightHandSolver();
         String path = solver.solve(maze);
         if (path.isEmpty()) {
             System.out.println("⚠️  Warning in " + testName + ": Path is empty. Solver might not be implemented yet.");
