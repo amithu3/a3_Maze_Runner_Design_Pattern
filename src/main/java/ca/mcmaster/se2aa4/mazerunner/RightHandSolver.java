@@ -1,15 +1,18 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-
+import ca.mcmaster.se2aa4.mazerunner.commands.Command;
 import ca.mcmaster.se2aa4.mazerunner.utils.PathFormatter;
+import ca.mcmaster.se2aa4.mazerunner.commands.MoveForwardCommand;
+import ca.mcmaster.se2aa4.mazerunner.commands.TurnLeftCommand;
+import ca.mcmaster.se2aa4.mazerunner.commands.TurnRightCommand;
 
 public class RightHandSolver implements MazeSolver {
     @Override
     public String solve(Maze maze) {
         MazeExplorer explorer;
         try {
-            explorer = new MazeExplorer(maze);  
-        } catch (RuntimeException e) {  // Fix: Catch RuntimeException, not IOException
+            explorer = new MazeExplorer(maze);
+        } catch (RuntimeException e) {
             System.out.println("ERROR: " + e.getMessage());
             return "";
         }
@@ -24,39 +27,39 @@ public class RightHandSolver implements MazeSolver {
             return "";
         }
 
+        Explorer temp = new Explorer(currentPosition, direction);
+
         while (!currentPosition.equals(end)) {
-            if (explorer.isValidPosition(currentPosition.move(direction.turnRight()))) {
-                // Turn right and move forward if valid
-                direction = direction.turnRight();
+            Direction dir = temp.getDirection();
+
+            if (explorer.isValidPosition(temp.getPosition().move(dir.turnRight()))) {
+                new TurnRightCommand(temp).execute();
                 path.append('R');
-                currentPosition = currentPosition.move(direction);
+
+                new MoveForwardCommand(temp, explorer).execute();
+                path.append('F');
+            } else if (explorer.isValidPosition(temp.getPosition().move(dir))) {
+                new MoveForwardCommand(temp, explorer).execute();
+                path.append('F');
+            } else if (explorer.isValidPosition(temp.getPosition().move(dir.turnLeft()))) {
+                new TurnLeftCommand(temp).execute();
+                path.append('L');
+
+                new MoveForwardCommand(temp, explorer).execute();
                 path.append('F');
             } else {
-                if (explorer.isValidPosition(currentPosition.move(direction))) {
-                    // Move forward if valid
-                    currentPosition = currentPosition.move(direction);
-                    path.append('F');
-                } else if (explorer.isValidPosition(currentPosition.move(direction.turnLeft()))) {
-                    // Turn left and move forward if valid
-                    direction = direction.turnLeft();
-                    path.append('L');
-                    currentPosition = currentPosition.move(direction);
-                    path.append('F');
-                } else {
-                    // Turn around
-                    direction = direction.turnRight().turnRight();
-                    path.append('R');
-                    path.append('R');
-                }
+                new TurnRightCommand(temp).execute();
+                new TurnRightCommand(temp).execute();
+                path.append("RR");
             }
+
+            direction = temp.getDirection();
+            currentPosition = temp.getPosition();
         }
 
-        // Convert and print both path formats
         System.out.println("Canonical form: " + path.toString());
         System.out.println("Factorized form: " + PathFormatter.getFactorizedPath(path.toString()));
-        
 
         return path.toString();
     }
-
 }
