@@ -3,8 +3,17 @@ package ca.mcmaster.se2aa4.mazerunner;
 import org.junit.jupiter.api.Test;
 import java.io.IOException;
 import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * Unit tests for the Maze class.
+ * Verifies correct loading, cell access, and row/column properties.
+ *
+ * Author: Midhousha Anura
+ * Assignment: 2AA4 Assignment 3
+ * Date: March 31, 2025
+ */
 public class MazeTest {
 
     @Test
@@ -23,28 +32,27 @@ public class MazeTest {
     @Test
     public void testGetColCountValid() {
         Maze maze = new Maze(List.of("####".toCharArray(), "#  #".toCharArray(), "####".toCharArray()));
-        assertEquals(4, maze.getColCount(0));  // First row has 4 columns
-        assertEquals(4, maze.getColCount(1));  // Second row has 4 columns (with spaces in between)
+        assertEquals(4, maze.getColCount(0));
+        assertEquals(4, maze.getColCount(1));
     }
 
     @Test
     public void testGetMaxCol() {
         Maze maze = new Maze(List.of("####".toCharArray(), "#  #".toCharArray(), "###".toCharArray()));
-        assertEquals(4, maze.getMaxCol());  // The longest row has 4 columns
+        assertEquals(4, maze.getMaxCol());
     }
 
-    // New test method added here
+    /**
+     * Tests maze loading from a provided grid.
+     */
     @Test
     public void testLoadMazeFromFile() {
-        // Directly create the maze using the constructor with a list of rows
         Maze maze = new Maze(List.of("####".toCharArray(), "#  #".toCharArray(), "####".toCharArray()));
-        
-        // Now you can assert various properties of the maze
-        assertNotNull(maze);
-        assertEquals(3, maze.getRowCount());  // The maze has 3 rows
-        assertEquals(4, maze.getColCount(0));  // The first row has 4 columns
-        assertEquals('#', maze.getCell(0, 0));  // The cell at (0, 0) is a wall
-        assertEquals(' ', maze.getCell(1, 1));  // The cell at (1, 1) is empty space
-    }
 
+        assertNotNull(maze);
+        assertEquals(3, maze.getRowCount());
+        assertEquals(4, maze.getColCount(0));
+        assertEquals('#', maze.getCell(0, 0));
+        assertEquals(' ', maze.getCell(1, 1));
+    }
 }

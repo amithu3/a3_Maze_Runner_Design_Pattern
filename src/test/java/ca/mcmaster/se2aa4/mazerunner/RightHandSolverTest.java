@@ -2,11 +2,17 @@ package ca.mcmaster.se2aa4.mazerunner;
 
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
-import ca.mcmaster.se2aa4.mazerunner.MazeSolvingStrategy;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
+/**
+ * Integration tests for the RightHandSolver class.
+ * Validates behavior with different maze configurations.
+ *
+ * Author: Midhousha Anura
+ * Assignment: 2AA4 Assignment 3
+ * Date: March 31, 2025
+ */
 public class RightHandSolverTest {
 
     private Maze createMazeFromLines(String... lines) {
@@ -20,10 +26,9 @@ public class RightHandSolverTest {
         MazeSolvingStrategy solver = new RightHandSolver();
         String path = solver.solve(maze);
         if (path.isEmpty()) {
-            System.out.println("⚠️  Warning in " + testName + ": Path is empty. Solver might not be implemented yet.");
+            System.out.println("⚠️ Warning in " + testName + ": Path is empty.");
         }
-        assertNotNull(path, "Path should not be null");
-        // We don’t fail the test if path is empty — just log
+        assertNotNull(path);
     }
 
     @Test
