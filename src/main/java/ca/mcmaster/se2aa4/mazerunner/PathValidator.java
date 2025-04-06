@@ -1,15 +1,23 @@
 package ca.mcmaster.se2aa4.mazerunner;
 
-import ca.mcmaster.se2aa4.mazerunner.commands.Command;
-import ca.mcmaster.se2aa4.mazerunner.Explorer;
-import ca.mcmaster.se2aa4.mazerunner.MazeExplorer;
-import ca.mcmaster.se2aa4.mazerunner.commands.MoveForwardCommand;
-import ca.mcmaster.se2aa4.mazerunner.commands.TurnLeftCommand;
-import ca.mcmaster.se2aa4.mazerunner.commands.TurnRightCommand;
+import ca.mcmaster.se2aa4.mazerunner.commands.*;
 
+/**
+ * Validates a given path string to determine whether it correctly navigates
+ * from the maze's entry to the exit using valid moves.
+ * 
+ * Author: Midhousha Anura
+ * Assignment: 2AA4 Assignment 3
+ * Date: March 31, 2025
+ */
 public class PathValidator {
     private final MazeExplorer explorer;
 
+    /**
+     * Initializes the validator using the given maze.
+     *
+     * @param maze The maze to validate paths against.
+     */
     public PathValidator(Maze maze) {
         MazeExplorer tempExplorer;
         try {
@@ -21,6 +29,12 @@ public class PathValidator {
         this.explorer = tempExplorer;
     }
 
+    /**
+     * Validates a movement path by simulating each move from the entry point.
+     *
+     * @param path A string of moves ('F', 'L', 'R') to follow.
+     * @return True if the path is valid and ends at the maze exit.
+     */
     public boolean validatePath(String path) {
         if (explorer == null) {
             System.out.println("ERROR: MazeExplorer could not be created.");
@@ -40,6 +54,7 @@ public class PathValidator {
                 }
             }
             command.execute();
+
             if (!explorer.isValidPosition(temp.getPosition())) return false;
         }
 

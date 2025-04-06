@@ -3,8 +3,23 @@ package ca.mcmaster.se2aa4.mazerunner;
 import ca.mcmaster.se2aa4.mazerunner.commands.*;
 import ca.mcmaster.se2aa4.mazerunner.utils.PathFormatter;
 
+/**
+ * A concrete implementation of MazeSolvingStrategy that uses the
+ * right-hand rule to solve the maze by always keeping the explorer’s
+ * right side toward the wall.
+ * 
+ * Author: Midhousha Anura
+ * Assignment: 2AA4 Assignment 3
+ * Date: March 31, 2025
+ */
 public class RightHandSolver implements MazeSolvingStrategy {
 
+    /**
+     * Solves the maze using the right-hand rule.
+     *
+     * @param maze The maze to solve.
+     * @return A string representing the solution path.
+     */
     @Override
     public String solve(Maze maze) {
         MazeExplorer explorer;
